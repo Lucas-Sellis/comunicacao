@@ -6,6 +6,7 @@ import com.luizalebs.comunicacao_api.business.service.ComunicacaoService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,18 +19,18 @@ public class ComunicacaoController {
     // INJEÇÃO DE DEPENDÊNCIA DO SERVICE
     // O CONTROLLER NÃO TEM REGRA DE NEGÓCIO, ELE SÓ CHAMA O SERVICE
     private final ComunicacaoService service;
-
     // CONSTRUTOR PARA O SPRING INJETAR O SERVICE
     public ComunicacaoController(ComunicacaoService service) {
         this.service = service;
     }
 
-    @PostMapping("/agendar")    // ESSE ENDPOINT RECEBE UM POST PARA AGENDAR UMA COMUNICAÇÃO
 
-    @Operation(summary = "Agendar Comunicações ", description = "Agendar uma comunicação")
-    @ApiResponse(responseCode = "200", description = "Comunicação salva com sucesso")
-    @ApiResponse(responseCode = "400", description = "Dados do pedido inválidos")
-    @ApiResponse(responseCode = "500", description = "Erro de servidor")
+    @PostMapping("/agendar")
+
+    @Operation(summary = "Realizar agendamento ", description = "Registra uma nova solicitação de comunicação no sistema para envio futuro")
+    @ApiResponse(responseCode = "201", description = "Agendamento criado e salvo com sucesso")
+    @ApiResponse(responseCode = "400", description = "Erro na requisição ex: formato de e-mail inválido ou campos nulos")
+    @ApiResponse(responseCode = "500", description = "Erro interno ao processar o agendamento no servidor")
 
     public ResponseEntity<ComunicacaoOutDTO> agendar(@RequestBody ComunicacaoInDTO dto)  {
         // RECEBE OS DADOS NO BODY DA REQUISIÇÃO (JSON)
@@ -38,13 +39,14 @@ public class ComunicacaoController {
         return ResponseEntity.ok(service.agendarComunicacao(dto));
     }
 
-    @GetMapping()
 
-    @Operation(summary = "Buscar Status de  Comunicações ", description = "Buscar Status uma comunicação")
-    @ApiResponse(responseCode = "200", description = "Status encontrado com sucesso")
-    @ApiResponse(responseCode = "400", description = "Dados do pedido inválidos")
-    @ApiResponse(responseCode = "500", description = "Erro de servidor")
-    // ESSE ENDPOINT É UM GET PARA CONSULTAR O STATUS
+
+    @GetMapping()
+    @Operation(summary = "Consultar comunicação", description = "Busca os detalhes e o status atual de um agendamento através do e-mail do destinatário.")
+    @ApiResponse(responseCode = "200", description = "Dados da comunicação recuperados com sucesso")
+    @ApiResponse(responseCode = "404", description = "Comunicação não encontrada: o e-mail informado não existe no banco")
+    @ApiResponse(responseCode = "500", description = "Erro interno: falha ao processar a busca no banco de dados")
+
     public ResponseEntity<ComunicacaoOutDTO> buscarStatus(@RequestParam String emailDestinatario) {
         // RECEBE O EMAIL COMO PARÂMETRO NA URL
         // CHAMA O SERVICE PARA BUSCAR NO BANCO
@@ -52,13 +54,15 @@ public class ComunicacaoController {
         return ResponseEntity.ok(service.buscarStatusComunicacao(emailDestinatario));
     }
 
+
+
     @PatchMapping("/cancelar")
-    @Operation(summary = "Cancelar Status de  Comunicações ", description = "Cancelar Status uma comunicação")
-    @ApiResponse(responseCode = "200", description = "Status cancelado com sucesso")
-    @ApiResponse(responseCode = "400", description = "Dados do pedido inválidos")
-    @ApiResponse(responseCode = "500", description = "Erro de servidor")
-    // ESSE ENDPOINT USA PATCH PARA ALTERAR O STATUS
-    // NO CASO, ELE CANCELA A COMUNICAÇÃO
+    @Operation(summary = "Interromper agendamento", description = "Altera o status de uma comunicação específica para CANCELADO, interrompendo o fluxo de envio.")
+    @ApiResponse(responseCode = "200", description = "Agendamento cancelado com sucesso no sistema")
+    @ApiResponse(responseCode = "404", description = "Não foi possível cancelar: o registro solicitado não foi encontrado")
+    @ApiResponse(responseCode = "500", description = "Erro interno: falha técnica ao tentar atualizar o status")
+
+
     public ResponseEntity<ComunicacaoOutDTO> cancelarStatus(@RequestParam String emailDestinatario) {
         // RECEBE O EMAIL COMO PARÂMETRO
         // PEDE PARA O SERVICE ALTERAR O STATUS PARA CANCELADO
