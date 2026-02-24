@@ -1,0 +1,10 @@
+D:\Programação\Projetos-Spring\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\api\dto\ComunicacaoInDTO.java
+D:\Programação\Projetos-Spring\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\infraestructure\repositories\ComunicacaoRepository.java
+D:\Programação\Projetos-Spring\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\api\ComunicacaoController.java
+D:\Programação\Projetos-Spring\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\ComunicacaoApiApplication.java
+D:\Programação\Projetos-Spring\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\infraestructure\enums\ModoEnvioEnum.java
+D:\Programação\Projetos-Spring\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\api\dto\ComunicacaoOutDTO.java
+D:\Programação\Projetos-Spring\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\business\ComunicacaoMapper.java
+D:\Programação\Projetos-Spring\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\business\service\ComunicacaoService.java
+D:\Programação\Projetos-Spring\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\infraestructure\entities\ComunicacaoEntity.java
+D:\Programação\Projetos-Spring\comunicacao_api\src\main\java\com\luizalebs\comunicacao_api\infraestructure\enums\StatusEnvioEnum.java
