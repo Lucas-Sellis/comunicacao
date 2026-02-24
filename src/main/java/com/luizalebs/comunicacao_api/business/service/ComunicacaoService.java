@@ -2,10 +2,11 @@ package com.luizalebs.comunicacao_api.business.service;
 
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoInDTO;
 import com.luizalebs.comunicacao_api.api.dto.ComunicacaoOutDTO;
-import com.luizalebs.comunicacao_api.business.converter.ComunicacaoConverter;
+import com.luizalebs.comunicacao_api.business.ComunicacaoMapper;
 import com.luizalebs.comunicacao_api.infraestructure.entities.ComunicacaoEntity;
 import com.luizalebs.comunicacao_api.infraestructure.enums.StatusEnvioEnum;
 import com.luizalebs.comunicacao_api.infraestructure.repositories.ComunicacaoRepository;
+import org.mapstruct.Mapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -17,15 +18,15 @@ public class ComunicacaoService {
     // ESTAMOS RECEBENDO O REPOSITORY PARA ACESSAR O BANCO
     private final ComunicacaoRepository repository;
 
-    // AQUI TAMBÉM É INJEÇÃO DE DEPENDÊNCIA.
-    // O CONVERTER SERVE PARA TRANSFORMAR DTO EM ENTITY E VICE-VERSA
-    private final ComunicacaoConverter converter;
+    // INJETAMOS A DEPENDÊNCIA DO MAPPER (gerado automaticamente pelo MapStruct)
+    // Ele serve para transformar DTO em Entity e vice-versa sem precisar de código manual
+    private final ComunicacaoMapper mapper;
 
     // CONSTRUTOR QUE RECEBE AS DEPENDÊNCIAS.
     // O SPRING INJETA AUTOMATICAMENTE POR CAUSA DO @Service
-    public ComunicacaoService(ComunicacaoRepository repository, ComunicacaoConverter converter) {
+    public ComunicacaoService(ComunicacaoRepository repository, ComunicacaoMapper mapper) {
         this.repository = repository;
-        this.converter = converter;
+        this.mapper = mapper;
     }
 
     // ESSE MÉTODO AGENDA UMA COMUNICAÇÃO
@@ -41,13 +42,13 @@ public class ComunicacaoService {
         dto.setStatusEnvio(StatusEnvioEnum.PENDENTE);
 
         // TRANSFORMA O DTO EM ENTITY PARA PODER SALVAR NO BANCO
-        ComunicacaoEntity entity = converter.paraEntity(dto);
+        ComunicacaoEntity entity = mapper.paraEntity(dto);
 
         // SALVA A ENTITY NO BANCO
         repository.save(entity);
 
         // DEPOIS DE SALVAR, CONVERTE A ENTITY DE VOLTA PARA DTO DE SAÍDA
-        ComunicacaoOutDTO outDTO = converter.paraDTO(entity);
+        ComunicacaoOutDTO outDTO = mapper.paraDTO(entity);
 
         // RETORNA O DTO PARA O CONTROLLER
         return outDTO;
@@ -65,7 +66,7 @@ public class ComunicacaoService {
         }
 
         // CONVERTE A ENTITY PARA DTO E RETORNA
-        return converter.paraDTO(entity);
+        return mapper.paraDTO(entity);
     }
 
     // ESSE MÉTODO ALTERA O STATUS DA COMUNICAÇÃO PARA CANCELADO
@@ -86,6 +87,8 @@ public class ComunicacaoService {
         repository.save(entity);
 
         // CONVERTE PARA DTO E RETORNA
-        return converter.paraDTO(entity);
+        return mapper.paraDTO(entity);
     }
 }
+git add .
+git commit -m "feat: adiciona cancelamento de comunicação com MapStruct"
