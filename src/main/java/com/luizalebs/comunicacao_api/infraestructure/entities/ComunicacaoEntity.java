@@ -45,5 +45,7 @@ public class ComunicacaoEntity implements Serializable {
     @Enumerated(EnumType.STRING) // Indica se o envio está PENDENTE, CONCLUÍDO, etc.
     private StatusEnvioEnum statusEnvio;
 
+
+
     // Resumindo: Essas são as especificações de cada "gaveta" (coluna) da nossa tabela no banco.
 }
