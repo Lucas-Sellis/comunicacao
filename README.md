@@ -4,6 +4,8 @@
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
+
+
 Esta é uma API robusta de agendamento de comunicações desenvolvida com **Spring Boot**. 
 O sistema permite gerenciar o ciclo de vida de mensagens (E-mail, SMS, WhatsApp e Push), controlando seus status de envio.
 
