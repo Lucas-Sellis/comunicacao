@@ -57,7 +57,7 @@ public class ComunicacaoService {
 
         try {
             ComunicacaoEntity entity = repository.findByEmailDestinatario(emailDestinatario)
-                    .orElseThrow(() -> new ResourceNotFoundException("Tarefa não encontrada " + emailDestinatario));
+                    .orElseThrow(() -> new ResourceNotFoundException("Email não encontrado " + emailDestinatario));
 
             // SE NÃO ENCONTRAR, LANÇA EXCEÇÃO
             if (Objects.isNull(entity)) {
@@ -77,11 +77,6 @@ public class ComunicacaoService {
         try {
             ComunicacaoEntity entity = repository.findByEmailDestinatario(emailDestinatario)
                     .orElseThrow(() -> new ResourceNotFoundException("Tarefa não encontrada " + emailDestinatario));
-
-            // SE NÃO ENCONTRAR, LANÇA EXCEÇÃO
-            if (Objects.isNull(entity)) {
-                throw new ResourceNotFoundException("Comunicação não encontrada");
-            }
 
             // ALTERA O STATUS PARA CANCELADO
             entity.setStatusEnvio(StatusEnvioEnum.CANCELADO);

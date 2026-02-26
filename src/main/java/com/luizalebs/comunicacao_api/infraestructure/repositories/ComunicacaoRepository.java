@@ -3,6 +3,8 @@ package com.luizalebs.comunicacao_api.infraestructure.repositories;
 import com.luizalebs.comunicacao_api.infraestructure.entities.ComunicacaoEntity;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Optional;
+
 public interface ComunicacaoRepository extends CrudRepository<ComunicacaoEntity, Long> {
 
     // Usei o CrudRepository porque ele já entrega o "kit básico" pronto:
@@ -10,5 +12,5 @@ public interface ComunicacaoRepository extends CrudRepository<ComunicacaoEntity,
 
     // Essa função busca uma comunicação no banco usando o e-mail do destinatário.
     // O Spring entende o nome do método e monta a busca sozinho para mim.
-    ComunicacaoEntity findByEmailDestinatario(String emailDestinatario);
+    Optional<ComunicacaoEntity> findByEmailDestinatario(String emailDestinatario);
 }
