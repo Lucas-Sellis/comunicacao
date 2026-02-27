@@ -6,45 +6,88 @@
 
 
 
-Esta é uma API robusta de agendamento de comunicações desenvolvida com **Spring Boot**. 
-O sistema permite gerenciar o ciclo de vida de mensagens (E-mail, SMS, WhatsApp e Push), controlando seus status de envio.
+API de agendamento de comunicações desenvolvida com Spring Boot.
 
-## 🏗️ Arquitetura e Padrões
-O projeto foi desenhado focando em segurança e boas práticas:
-- **DTO Pattern**: Utilizamos `InDTO` para recebimento de dados e `OutDTO` para resposta, garantindo que a **Entity** (nosso modelo de banco de dados) nunca seja exposta diretamente.
-- **Enums**: Padronização rigorosa dos modos de envio e status da tarefa.
-- **Service Layer**: Toda a regra de negócio e conversões (Mapper) estão centralizadas na camada de serviço.
+O sistema permite gerenciar o ciclo de vida de mensagens (E-mail, SMS, WhatsApp e Push), controlando seus status de envio de forma estruturada e segura.
 
-## 🚦 Status e Modos de Envio
+🏗️ Arquitetura e Boas Práticas
 
-| Status | Descrição |
-| :--- | :--- |
-| `PENDENTE` | Aguardando processamento |
-| `ENVIADO` | Comunicação disparada com sucesso |
-| `CANCELADO` | Agendamento interrompido pelo usuário |
+O projeto foi estruturado seguindo padrões amplamente utilizados no mercado:
 
-**Canais Disponíveis:** `EMAIL`, `SMS`, `PUSH`, `WHATSAPP`.
+DTO Pattern
+Utilização de ComunicacaoInDTO para entrada de dados e ComunicacaoOutDTO para resposta, evitando a exposição direta da Entity.
 
-## 🛠️ Tecnologias
-- **Java 17**
-- **Spring Boot 3**
-- **Spring Data JPA**
-- **MySQL**
-- **Lombok** (para código limpo)
+Service Layer
+Toda a regra de negócio está centralizada na camada de serviço, mantendo o Controller limpo e organizado.
 
-## 📡 Endpoints (Documentação da API)
+Mapper
+Conversão entre DTO e Entity isolada da lógica principal.
 
-### 1. Agendar Comunicação
-Cria um novo agendamento no banco de dados.
-- **Método:** `POST`
-- **Caminho:** `/comunicacao/agendar`
-- **Corpo (JSON):**
-```json
+Enums
+Padronização dos modos de envio e status da comunicação.
+
+OpenAPI / Swagger
+Documentação interativa disponível em:
+
+http://localhost:8080/swagger-ui.html
+
+Docker
+Ambiente totalmente containerizado para facilitar execução e deploy.
+
+🐳 Como Rodar com Docker
+
+A aplicação está completamente dockerizada, incluindo banco de dados e API.
+
+1️⃣ Gerar o .jar
+./mvnw clean package -DskipTests
+2️⃣ Subir a aplicação e o banco
+docker-compose up --build
+
+A API ficará disponível em:
+
+http://localhost:8080
+
+🚦 Status e Modos de Envio
+📌 Status da Comunicação
+Status	Descrição
+PENDENTE	Aguardando processamento
+ENVIADO	Comunicação enviada com sucesso
+CANCELADO	Agendamento interrompido pelo usuário
+📌 Canais Disponíveis
+
+EMAIL, SMS, PUSH, WHATSAPP
+
+🛠️ Tecnologias Utilizadas
+
+Java 17
+
+Spring Boot 3
+
+Spring Data JPA
+
+MySQL
+
+Lombok
+
+Docker
+
+Swagger / OpenAPI
+
+📡 Endpoints
+1️⃣ Agendar Comunicação
+
+Cria um novo agendamento no sistema.
+
+Método: POST
+
+URL: /comunicacao/agendar
+
+Corpo da Requisição (JSON)
 {
-  "nomeDestinatario": "Nome do Cliente",
-  "emailDestinatario": "teste@email.com",
-  "telefoneDestinatario": "11999999999",
-  "mensagem": "Mensagem de teste",
-  "modoDeEnvio": "EMAIL",
-  "dataHoraEnvio": "2026-02-25 10:00:00"
+"nomeDestinatario": "Nome do Cliente",
+"emailDestinatario": "teste@email.com",
+"telefoneDestinatario": "11999999999",
+"mensagem": "Mensagem de teste",
+"modoDeEnvio": "EMAIL",
+"dataHoraEnvio": "2026-02-25T10:00:00"
 }
